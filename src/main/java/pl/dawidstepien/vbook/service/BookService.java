@@ -9,10 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import pl.dawidstepien.vbook.model.BookEntity;
-import pl.dawidstepien.vbook.util.Loggable;
 
 @Stateless
-@Loggable
 public class BookService {
 
   @PersistenceContext(unitName = "vbookPersistenceUnit")

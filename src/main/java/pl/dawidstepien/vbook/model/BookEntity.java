@@ -2,19 +2,26 @@ package pl.dawidstepien.vbook.model;
 
 import static pl.dawidstepien.vbook.model.BookEntity.FIND_ALL;
 
+import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import pl.dawidstepien.vbook.model.book.BookStatus;
-
 @Entity
+@Table(name = "books")
 @NamedQuery(name = FIND_ALL, query = "SELECT book FROM BookEntity book")
-public class BookEntity {
+public class BookEntity implements Serializable {
 
   public static final String FIND_ALL = "BookEntity.findAllBooks";
 
@@ -26,16 +33,19 @@ public class BookEntity {
   private String title;
 
   @NotNull
-  @Column(nullable = false)
   @ManyToMany
-  private AuthorEntity author;
+  @JoinTable(
+    joinColumns = @JoinColumn(name = "book_id"),
+    inverseJoinColumns = @JoinColumn(name = "author_id"))
+  @OrderBy("name ASC")
+  private List<AuthorEntity> authors;
 
   @NotNull
   @Column(nullable = false)
   private String isbn;
 
   @NotNull
-  @Column(nullable = false)
+  @Column(nullable = false, name = "number_of_pages")
   private int numberOfPages;
 
   @NotNull
@@ -47,8 +57,9 @@ public class BookEntity {
   private String cover;
 
   @NotNull
-  @Column(nullable = false)
-  private BookStatus status;
+  @OneToOne
+  @JoinColumn(nullable = false)
+  private BookStatusEntity status;
 
   public long getId() {
     return id;
@@ -62,12 +73,12 @@ public class BookEntity {
     this.title = title;
   }
 
-  public AuthorEntity getAuthor() {
-    return author;
+  public List<AuthorEntity> getAuthors() {
+    return authors;
   }
 
-  public void setAuthor(AuthorEntity author) {
-    this.author = author;
+  public void setAuthors(List<AuthorEntity> authors) {
+    this.authors = authors;
   }
 
   public String getIsbn() {
@@ -102,11 +113,11 @@ public class BookEntity {
     this.cover = cover;
   }
 
-  public BookStatus getStatus() {
+  public BookStatusEntity getStatus() {
     return status;
   }
 
-  public void setStatus(BookStatus status) {
+  public void setStatus(BookStatusEntity status) {
     this.status = status;
   }
 }
