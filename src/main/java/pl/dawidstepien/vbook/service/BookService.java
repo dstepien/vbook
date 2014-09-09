@@ -1,23 +1,23 @@
 package pl.dawidstepien.vbook.service;
 
-import static pl.dawidstepien.vbook.model.BookEntity.FIND_ALL;
+import static pl.dawidstepien.vbook.model.BookEntity.FIND_ALL_BOOKS;
 
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import pl.dawidstepien.vbook.model.BookEntity;
 
 @Stateless
 public class BookService {
 
-  @PersistenceContext(unitName = "vbookPersistenceUnit")
+  @Inject
   private EntityManager entityManager;
 
   public List<BookEntity> findBooks() {
-    return entityManager.createNamedQuery(FIND_ALL, BookEntity.class).getResultList();
+    return entityManager.createNamedQuery(FIND_ALL_BOOKS, BookEntity.class).getResultList();
   }
 
   public BookEntity createBook(BookEntity book) {

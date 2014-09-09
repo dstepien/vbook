@@ -1,6 +1,6 @@
 package pl.dawidstepien.vbook.service;
 
-import static pl.dawidstepien.vbook.model.AuthorEntity.FIND_ALL;
+import static pl.dawidstepien.vbook.model.AuthorEntity.FIND_ALL_AUTHORS;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class AuthorService {
   private EntityManager entityManager;
 
   public List<AuthorEntity> findAuthors() {
-    return entityManager.createNamedQuery(FIND_ALL, AuthorEntity.class).getResultList();
+    return entityManager.createNamedQuery(FIND_ALL_AUTHORS, AuthorEntity.class).getResultList();
   }
 
   public AuthorEntity createBook(AuthorEntity author) {

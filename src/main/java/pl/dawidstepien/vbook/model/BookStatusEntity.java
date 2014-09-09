@@ -6,13 +6,17 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import pl.dawidstepien.vbook.model.book.BookStatus;
 
 @Entity
-@Table(name = "books_statuses")
+@Table(name = "book_statuses")
+@NamedQuery(name = BookStatusEntity.GET_STATUS, query = "SELECT bookStatus FROM BookStatusEntity bookStatus WHERE status = :status")
 public class BookStatusEntity {
+
+  public static final String GET_STATUS = "BookStatusEntity.getStatus";
 
   @Id @GeneratedValue
   private int id;

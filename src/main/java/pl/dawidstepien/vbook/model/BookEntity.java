@@ -1,10 +1,9 @@
 package pl.dawidstepien.vbook.model;
 
-import static pl.dawidstepien.vbook.model.BookEntity.FIND_ALL;
-
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
@@ -20,10 +20,14 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "books")
-@NamedQuery(name = FIND_ALL, query = "SELECT book FROM BookEntity book")
+@NamedQueries({
+  @NamedQuery(name = BookEntity.FIND_ALL_BOOKS, query = "SELECT book FROM BookEntity book"),
+  @NamedQuery(name = BookEntity.FIND_ALL_BOOKS_BY_AUTHOR, query = "SELECT book FROM BookEntity book JOIN book.authors authors WHERE authors.id = :id")
+})
 public class BookEntity implements Serializable {
 
-  public static final String FIND_ALL = "BookEntity.findAllBooks";
+  public static final String FIND_ALL_BOOKS = "BookEntity.findAllBooks";
+  public static final String FIND_ALL_BOOKS_BY_AUTHOR = "BookEntity.findBookByAuthor";
 
   @Id @GeneratedValue
   private long id;
@@ -33,7 +37,7 @@ public class BookEntity implements Serializable {
   private String title;
 
   @NotNull
-  @ManyToMany
+  @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
   @JoinTable(
     joinColumns = @JoinColumn(name = "book_id"),
     inverseJoinColumns = @JoinColumn(name = "author_id"))

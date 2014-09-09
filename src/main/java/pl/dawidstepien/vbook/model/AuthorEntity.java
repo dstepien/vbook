@@ -1,10 +1,11 @@
 package pl.dawidstepien.vbook.model;
 
-import static pl.dawidstepien.vbook.model.AuthorEntity.FIND_ALL;
+import static pl.dawidstepien.vbook.model.AuthorEntity.FIND_ALL_AUTHORS;
 
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,10 +17,10 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "authors")
-@NamedQuery(name = FIND_ALL, query = "SELECT author FROM AuthorEntity author")
+@NamedQuery(name = FIND_ALL_AUTHORS, query = "SELECT author FROM AuthorEntity author")
 public class AuthorEntity implements Serializable {
 
-  public static final String FIND_ALL = "AuthorEntity.findAllAuthors";
+  public static final String FIND_ALL_AUTHORS = "AuthorEntity.findAllAuthors";
 
   @Id @GeneratedValue
   private long id;
@@ -28,7 +29,7 @@ public class AuthorEntity implements Serializable {
   @Column(nullable = false)
   private String name;
 
-  @ManyToMany(mappedBy = "authors")
+  @ManyToMany(mappedBy = "authors", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
   private List<BookEntity> books;
 
   public AuthorEntity() {}
