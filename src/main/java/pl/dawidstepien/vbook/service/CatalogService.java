@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
 import pl.dawidstepien.vbook.model.AuthorEntity;
@@ -47,7 +48,9 @@ public class CatalogService {
   }
 
   public List<BookEntity> findBooksByAuthor(long authorId) {
-    return entityManager.createNamedQuery(BookEntity.FIND_ALL_BOOKS_BY_AUTHOR, BookEntity.class).setParameter("id", authorId).getResultList();
+    TypedQuery<BookEntity> query = entityManager.createNamedQuery(BookEntity.FIND_ALL_BOOKS_BY_AUTHOR, BookEntity.class);
+    query.setParameter("id", authorId);
+    return query.getResultList();
   }
 
   public List<AuthorEntity> findAllAuthors() {
