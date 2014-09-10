@@ -1,6 +1,8 @@
 package pl.dawidstepien.vbook.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -79,6 +81,10 @@ public class BookEntity implements Serializable {
 
   public List<AuthorEntity> getAuthors() {
     return authors;
+  }
+
+  public void setAuthor(AuthorEntity author) {
+    setAuthors(new ArrayList<>(Arrays.asList(author)));
   }
 
   public void setAuthors(List<AuthorEntity> authors) {

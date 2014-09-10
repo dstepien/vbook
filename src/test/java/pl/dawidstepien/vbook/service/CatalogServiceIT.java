@@ -3,8 +3,6 @@ package pl.dawidstepien.vbook.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -81,7 +79,7 @@ public class CatalogServiceIT extends AbstractServiceIT {
   private BookEntity createNewBookEntity() {
     BookEntity book = new BookEntity();
 
-    book.setAuthors(new ArrayList<>(Arrays.asList(entityManager.find(AuthorEntity.class, 1L))));
+    book.setAuthor(entityManager.find(AuthorEntity.class, 1L));
     book.setCover("cover");
     book.setDescription("Lorem ipsum");
     book.setIsbn("123-123-123");
