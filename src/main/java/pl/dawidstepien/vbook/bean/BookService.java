@@ -1,4 +1,4 @@
-package pl.dawidstepien.vbook.service;
+package pl.dawidstepien.vbook.bean;
 
 import static pl.dawidstepien.vbook.model.BookEntity.FIND_ALL_BOOKS;
 

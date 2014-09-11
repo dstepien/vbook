@@ -1,4 +1,4 @@
-package pl.dawidstepien.vbook.service;
+package pl.dawidstepien.vbook.bean;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -6,8 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.UsingDataSet;
@@ -19,22 +17,16 @@ import pl.dawidstepien.vbook.model.BookEntity;
 import pl.dawidstepien.vbook.model.BookStatusEntity;
 
 @RunWith(Arquillian.class)
-public class CatalogServiceIT extends AbstractServiceIT {
+public class CatalogBeanIT extends AbstractBeanIT {
 
   @Inject
-  private CatalogService catalogService;
-
-  @Inject
-  private BookStatusService bookStatusService;
-
-  @PersistenceContext
-  private EntityManager entityManager;
+  private CatalogBean catalogBean;
 
   @Test
   @UsingDataSet("books.yml")
   public void shouldFindAllBooks() {
     // when
-    List<BookEntity> books = catalogService.findAllBooks();
+    List<BookEntity> books = catalogBean.findAllBooks();
 
     // then
     assertEquals(3, books.size());
@@ -44,7 +36,7 @@ public class CatalogServiceIT extends AbstractServiceIT {
   @UsingDataSet("books.yml")
   public void shouldFindBookById() {
     // when
-    BookEntity book = catalogService.findBook(1L);
+    BookEntity book = catalogBean.findBook(1L);
 
     // then
     assertNotNull(book);
@@ -55,7 +47,7 @@ public class CatalogServiceIT extends AbstractServiceIT {
   @UsingDataSet("books.yml")
   public void shouldFindAllBooksByAuthorId() {
     // when
-    List<BookEntity> books = catalogService.findBooksByAuthor(1L);
+    List<BookEntity> books = catalogBean.findBooksByAuthor(1L);
 
     // then
     assertNotNull(books);
@@ -66,14 +58,14 @@ public class CatalogServiceIT extends AbstractServiceIT {
   @UsingDataSet("books.yml")
   public void shouldCreateNewBook() {
     // given
-    int currentBookNumber = catalogService.findAllBooks().size();
+    int currentBookNumber = catalogBean.findAllBooks().size();
     BookEntity book = createNewBookEntity();
 
     // when
-    catalogService.createBook(book);
+    catalogBean.createBook(book);
 
     // then
-    assertEquals(currentBookNumber + 1, catalogService.findAllBooks().size());
+    assertEquals(currentBookNumber + 1, catalogBean.findAllBooks().size());
   }
 
   private BookEntity createNewBookEntity() {
@@ -94,22 +86,22 @@ public class CatalogServiceIT extends AbstractServiceIT {
   @UsingDataSet("books.yml")
   public void shouldRemoveBook() {
     // given
-    int currentBookNumber = catalogService.findAllBooks().size();
-    BookEntity book = catalogService.findBook(1L);
+    int currentBookNumber = catalogBean.findAllBooks().size();
+    BookEntity book = catalogBean.findBook(1L);
 
     // when
-    catalogService.removeBook(book);
+    catalogBean.removeBook(book);
 
     // then
-    assertEquals(currentBookNumber - 1, catalogService.findAllBooks().size());
-    assertEquals(3, catalogService.findAllAuthors().size());
+    assertEquals(currentBookNumber - 1, catalogBean.findAllBooks().size());
+    assertEquals(3, catalogBean.findAllAuthors().size());
   }
 
   @Test
   @UsingDataSet("books.yml")
   public void shouldFindAllAuthors() {
     // when
-    List<AuthorEntity> authors = catalogService.findAllAuthors();
+    List<AuthorEntity> authors = catalogBean.findAllAuthors();
 
     // then
     assertEquals(3, authors.size());
@@ -119,42 +111,42 @@ public class CatalogServiceIT extends AbstractServiceIT {
   @UsingDataSet("books.yml")
   public void shouldCreateNewAuthor() {
     // given
-    int currentAuthorNumber = catalogService.findAllAuthors().size();
+    int currentAuthorNumber = catalogBean.findAllAuthors().size();
     AuthorEntity author = new AuthorEntity("Jenifer Cole");
 
     // when
-    catalogService.createAuthor(author);
+    catalogBean.createAuthor(author);
 
     // then
-    assertEquals(currentAuthorNumber + 1, catalogService.findAllAuthors().size());
+    assertEquals(currentAuthorNumber + 1, catalogBean.findAllAuthors().size());
   }
 
   @Test
   @UsingDataSet("books.yml")
   public void shouldRemoveAuthorWithBooks() {
     // given
-    int currentAuthorNumber = catalogService.findAllAuthors().size();
+    int currentAuthorNumber = catalogBean.findAllAuthors().size();
     AuthorEntity author = entityManager.find(AuthorEntity.class, 1L);
 
     // when
-    catalogService.removeAuthor(author);
+    catalogBean.removeAuthor(author);
 
     // then
-    assertEquals(currentAuthorNumber - 1, catalogService.findAllAuthors().size());
-    assertEquals(2, catalogService.findAllBooks().size());
+    assertEquals(currentAuthorNumber - 1, catalogBean.findAllAuthors().size());
+    assertEquals(2, catalogBean.findAllBooks().size());
   }
 
   @Test
   @UsingDataSet("books.yml")
   public void shouldUpdateBookDetails() {
     // given
-    BookEntity book = catalogService.findBook(1L);
+    BookEntity book = catalogBean.findBook(1L);
     String newBookTitle = "Dark Night";
 
     // when
     book.setTitle(newBookTitle);
-    catalogService.updateBook(book);
-    book = catalogService.findBook(1L);
+    catalogBean.updateBook(book);
+    book = catalogBean.findBook(1L);
 
     // then
     assertEquals(newBookTitle, book.getTitle());
@@ -169,7 +161,7 @@ public class CatalogServiceIT extends AbstractServiceIT {
 
     // when
     author.setName(newAuthorName);
-    catalogService.updateAuthor(author);
+    catalogBean.updateAuthor(author);
     author = entityManager.find(AuthorEntity.class, 1L);
 
     // then

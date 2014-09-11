@@ -1,4 +1,4 @@
-package pl.dawidstepien.vbook.service;
+package pl.dawidstepien.vbook.bean;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import pl.dawidstepien.vbook.model.AuthorEntity;
 import pl.dawidstepien.vbook.model.BookEntity;
 
 @Stateless
-public class CatalogService {
+public class CatalogBean {
 
   @Inject
   private EntityManager entityManager;

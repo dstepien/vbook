@@ -1,4 +1,4 @@
-package pl.dawidstepien.vbook.service;
+package pl.dawidstepien.vbook.bean;
 
 import static pl.dawidstepien.vbook.model.AuthorEntity.FIND_ALL_AUTHORS;
 
