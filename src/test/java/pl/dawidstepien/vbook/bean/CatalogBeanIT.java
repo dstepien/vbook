@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
 
 import pl.dawidstepien.vbook.model.AuthorEntity;
 import pl.dawidstepien.vbook.model.BookEntity;
-import pl.dawidstepien.vbook.model.BookStatusEntity;
+import pl.dawidstepien.vbook.model.book.BookStatus;
 
 @RunWith(Arquillian.class)
 public class CatalogBeanIT extends AbstractBeanIT {
@@ -76,7 +76,7 @@ public class CatalogBeanIT extends AbstractBeanIT {
     book.setDescription("Lorem ipsum");
     book.setIsbn("123-123-123");
     book.setNumberOfPages(120);
-    book.setStatus(entityManager.find(BookStatusEntity.class, 1));
+    book.setStatus(BookStatus.AVAILABLE);
     book.setTitle("My new book");
 
     return book;
