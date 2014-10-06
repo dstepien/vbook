@@ -21,10 +21,9 @@ public class CatalogBean {
     return entityManager.createNamedQuery(BookEntity.FIND_ALL_BOOKS, BookEntity.class).getResultList();
   }
 
-  public BookEntity createBook(@NotNull BookEntity book) {
+  public void createBook(@NotNull BookEntity book) {
     createAuthorsIfNotExists(book.getAuthors());
     entityManager.persist(book);
-    return book;
   }
 
   private void createAuthorsIfNotExists(@NotNull List<AuthorEntity> authors) {
