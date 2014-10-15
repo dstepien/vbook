@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="layout.xhtml">
+    <ui:define name="title">Create a new book</ui:define>
+    <ui:define name="content">
+        <h:form id="bookForm">
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Title : "/>
+                <h:inputText value="#{catalogController.book.title}"/>
+
+                <h:outputLabel value="ISBN : "/>
+                <h:inputText value="#{catalogController.book.isbn}"/>
+
+                <h:outputLabel value="Description : "/>
+                <h:inputTextarea value="#{catalogController.book.description}" cols="16" rows="3"/>
+
+                <h:outputLabel value="Number of pages : "/>
+                <h:inputText value="#{catalogController.book.numberOfPages}"/>
+
+                <h:outputLabel value="Author : "/>
+                <h:inputText value="#{catalogController.author.name}"/>
+            </h:panelGrid>
+            <h:commandButton value="Create a book" action="#{catalogController.doCreateBook()}">
+                <f:ajax execute="@form" render=":booklist :errors"/>
+            </h:commandButton>
+        </h:form>
+        <hr/>
+        <h1>List of books</h1>
+        <h:dataTable id="booklist" value="#{catalogBean.findAllBooks()}" var="book" border="1">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Title"/>
+                </f:facet>
+                <h:link outcome="viewBook.xhtml?id=#{book.id}" value="#{book.title}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Author"/>
+                </f:facet>
+                <ui:repeat value="#{book.authors}" var="author">
+                    <h:outputText value="#{author.name}"/>
+                </ui:repeat>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="ISBN"/>
+                </f:facet>
+                <h:outputText value="#{book.isbn}"/>
+            </h:column>
+        </h:dataTable>
+    </ui:define>
+</ui:composition>
+</html>

@@ -4,13 +4,16 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
 import pl.dawidstepien.vbook.model.AuthorEntity;
 import pl.dawidstepien.vbook.model.BookEntity;
 
+@Named
 @Stateless
 public class CatalogBean {
 
@@ -57,7 +60,15 @@ public class CatalogBean {
   }
 
   public void createAuthor(AuthorEntity author) {
-    entityManager.persist(author);
+    if(!authorExists(author)) {
+      entityManager.persist(author);
+    }
+  }
+
+  private boolean authorExists(AuthorEntity author) {
+    Query query = entityManager.createQuery("SELECT author.id FROM AuthorEntity author WHERE author.name = :name");
+    query.setParameter("name", author.getName());
+    return query.getResultList().size() > 0;
   }
 
   public void removeAuthor(AuthorEntity author) {

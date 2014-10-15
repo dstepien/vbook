@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -43,7 +44,7 @@ public class BookEntity implements Serializable {
   private String title;
 
   @NotNull
-  @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+  @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
   @JoinTable(
     joinColumns = @JoinColumn(name = "book_id"),
     inverseJoinColumns = @JoinColumn(name = "author_id"))
@@ -73,6 +74,10 @@ public class BookEntity implements Serializable {
 
   public long getId() {
     return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 
   public String getTitle() {

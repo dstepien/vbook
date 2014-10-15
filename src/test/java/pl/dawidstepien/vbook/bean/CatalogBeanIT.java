@@ -123,6 +123,20 @@ public class CatalogBeanIT extends AbstractBeanIT {
 
   @Test
   @UsingDataSet("books.yml")
+  public void shouldNotCreateAuthorIfExists() {
+    // given
+    int currentAuthorNumber = catalogBean.findAllAuthors().size();
+    AuthorEntity author = new AuthorEntity("John Doe");
+
+    // when
+    catalogBean.createAuthor(author);
+
+    // then
+    assertEquals(currentAuthorNumber, catalogBean.findAllAuthors().size());
+  }
+
+  @Test
+  @UsingDataSet("books.yml")
   public void shouldRemoveAuthorWithBooks() {
     // given
     int currentAuthorNumber = catalogBean.findAllAuthors().size();

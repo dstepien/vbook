@@ -5,7 +5,6 @@ import static pl.dawidstepien.vbook.model.BookEntity.FIND_ALL_BOOKS;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import pl.dawidstepien.vbook.model.BookEntity;
@@ -13,7 +12,7 @@ import pl.dawidstepien.vbook.model.BookEntity;
 @Stateless
 public class BookService {
 
-  @Inject
+//  @Inject
   private EntityManager entityManager;
 
   public List<BookEntity> findBooks() {
